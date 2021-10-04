@@ -1,0 +1,37 @@
+docker run -d --hostname gitlab-saqib.teresol.com \
+-p 443:443 -p 80:80 -p 2222:22 \
+--name gitlab-sunil \
+--restart unless-stopped \
+--volume ~/gitlab/config:/etc/gitlab \
+--volume ~/gitlab/logs:/var/log/gitlab \
+--volume ~/gitlab/data:/var/opt/gitlab \
+gitlab/gitlab-ce:latest
+
+docker logs f880934dee5b -f
+
+#password nhn pata so reset it. Remember default user is root
+sudo gitlab-rake "gitlab:password:reset"
+
+#ager kisi particular user ka pw reset karna hai to
+sudo gitlab-rake "gitlab:password:reset[username]"
+
+#in order to check ip of container against the id
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name_or_id
+
+
+#vscode wala container
+# This will start a code-server container and expose it at http://127.0.0.1:8080.
+# It will also mount your current directory into the container as `/home/coder/project`
+# and forward your UID/GID so that all file system operations occur as your user outside
+# the container.
+#
+# Your $HOME/.config is mounted at $HOME/.config within the container to ensure you can
+# easily access/modify your code-server config in $HOME/.config/code-server/config.json
+# outside the container.
+mkdir -p ~/.config
+docker run -it --name code-server -p 127.0.0.1:8080:8080 \
+  -v "$HOME/.config:/home/coder/.config" \
+  -v "$PWD:/home/coder/project" \
+  -u "$(id -u):$(id -g)" \
+  -e "DOCKER_USER=$USER" \
+  codercom/code-server:latesta
