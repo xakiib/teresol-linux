@@ -1,0 +1,5 @@
+#ager net say direct sh file run karna chahtay ho to yay command chalao
+bash <(curl -s http://www.nicknorton.net/mousewheel.sh) 
+
+#ager download karni ho file curl k thru aur kisi file main save karni ho
+curl -o mousewheel.sh http://www.nicknorton.net/mousewheel.sh
